@@ -1,0 +1,2 @@
+# The content of this file will be sourced for all shells (interactive or none, login or not)
+# It will be sourced before .zshrc for interactive shells, so variables may be overwritten by it

@@ -1,0 +1,11 @@
+# This section is inserted from zshrc_snippet file. Don't edit below directly instead edit "zshrc_snippet" file
+# You can source other files and export path here. .zshrc will be sourced for interactive shells only
+# For non-interactive shells there are other files to consider such as .zprofile and .zshenv.
+# To learn the difference checkout this blog post: https://www.zerotohero.dev/zshell-startup-files/
+
+source "$HOME/.config/aliases"
+source "$HOME/.localrc"
+
+export PATH="$PATH:$HOME/.local/bin"
+
+source "$HOME/.cargo/env"

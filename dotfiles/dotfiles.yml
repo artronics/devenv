@@ -1,0 +1,24 @@
+- hosts: localhost
+  gather_facts: yes
+  tasks:
+    - name: os family
+      debug:
+#        msg: "os family {{ ansible_os_family }} distro {{ ansible_distribution }} {{ ansible_system }} {{ ansible_facts['ansible_userspace_architecture'] }} {{ ansible_userspace_bits }}"
+#        msg: "facts {{ ansible_facts['userspace_architecture'] }}"
+        msg: "facts {{ ansible_architecture }}"
+    - name: create directories
+      block:
+        - file:
+            path: "{{ ansible_env.HOME }}/.config"
+            state: directory
+        - file:
+            path: "{{ ansible_env.HOME }}/.config/nvim"
+            state: directory
+        - file:
+            path: "{{ ansible_env.HOME }}/.local/bin"
+            recurse: true
+            state: directory
+
+#  roles:
+#    - role: dotfiles
+#    - role: packages

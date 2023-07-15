@@ -1,0 +1,41 @@
+- name: Install cmd tools/utilities
+  become: yes
+  apt:
+    name: [unzip, curl, wget, jq, fzf, ripgrep]
+
+- name: Install build tools
+  become: yes
+  apt:
+    name: [gcc, llvm, make, cmake, ninja-build, build-essential, gettext]
+    state: present
+
+- name: Install neovim stable
+  block:
+    - stat:
+        path: /usr/local/bin/nvim
+      register: nvim_bin
+    - block:
+        - name: build neovim stable from source
+          git:
+            repo: https://github.com/neovim/neovim
+            version: stable
+            dest: /tmp/neovim
+            depth: 1
+        - debug:
+            msg: "⏰ compiling neovim. It'll take a while ☕️"
+        - command: "make CMAKE_BUILD_TYPE=Release"
+          args:
+            chdir: /tmp/neovim
+        - command: "make install"
+          become: yes
+          args:
+            chdir: /tmp/neovim
+      when: not nvim_bin.stat.exists
+
+- name: Install Shell related tools
+  import_tasks:
+    file: shell.yml
+
+- name: Install programming languages
+  import_tasks:
+    file: programming.yml

@@ -1,2 +1,6 @@
 .idea
 .env
+
+# CAUTION: Make sure everything in home is ignored. You don't want to commit history like files
+home/*
+!home/.gitkeep

@@ -1,0 +1,5 @@
+- name: Rustup
+  shell:
+    cmd: "curl https://sh.rustup.rs -sSf | sh -s -- -y"
+    creates: "{{ ansible_env.HOME }}/.cargo/bin/rustc"
+
