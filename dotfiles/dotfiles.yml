@@ -1,11 +1,6 @@
 - hosts: localhost
   gather_facts: yes
-  tasks:
-    - name: os family
-      debug:
-#        msg: "os family {{ ansible_os_family }} distro {{ ansible_distribution }} {{ ansible_system }} {{ ansible_facts['ansible_userspace_architecture'] }} {{ ansible_userspace_bits }}"
-#        msg: "facts {{ ansible_facts['userspace_architecture'] }}"
-        msg: "facts {{ ansible_architecture }}"
+  pre_tasks:
     - name: create directories
       block:
         - file:
