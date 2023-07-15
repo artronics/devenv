@@ -4,7 +4,14 @@
     version: master
     dest: "{{ ansible_env.HOME }}/.jenv"
 
+- name: eval jenv
+  shell:
+    cmd: 'PATH="$HOME/.jenv/bin:$PATH" eval "$(jenv init -)"'
+
+
 - name: Install JDKs
+  vars:
+    jenv_bin: "{{ ansible_env.HOME }}/.jenv/bin/jenv"
   block:
     - find:
         paths: /opt
@@ -26,7 +33,7 @@
       register: jdk_17
     - name: Register JDK 17 with jenv
       shell:
-        cmd: "jenv add {{ jdk_17.files[0].path }}"
+        cmd: "{{ jenv_bin }} add {{ jdk_17.files[0].path }}"
 
     - find:
         paths: /opt
@@ -48,8 +55,8 @@
       register: jdk_20
     - name: Register JDK 20 with jenv
       shell:
-        cmd: "jenv add {{ jdk_20.files[0].path }}"
+        cmd: "{{ jenv_bin }} add {{ jdk_20.files[0].path }}"
 
-- name: Set JDK 20 as global
-  shell:
-    cmd: "jenv global 20"
+    - name: Set JDK 20 as global
+      shell:
+        cmd: "{{ jenv_bin }} global 20"
