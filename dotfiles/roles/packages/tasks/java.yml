@@ -11,7 +11,6 @@
         patterns: 'jdk-17.*'
         file_type: directory
       register: jdk_17
-
     - name: download JDK 17 archive
       become: yes
       unarchive:
@@ -19,6 +18,12 @@
         remote_src: yes
         dest: /opt
       when: jdk_17.matched == 0
+
+    - find:
+        paths: /opt
+        patterns: 'jdk-17.*'
+        file_type: directory
+      register: jdk_17
     - name: Register JDK 17 with jenv
       shell:
         cmd: "jenv add {{ jdk_17.files[0].path }}"
@@ -28,7 +33,6 @@
         patterns: 'jdk-20.*'
         file_type: directory
       register: jdk_20
-
     - name: download JDK 20 archive
       become: yes
       unarchive:
@@ -37,6 +41,11 @@
         dest: /opt
       when: jdk_20.matched == 0
 
+    - find:
+        paths: /opt
+        patterns: 'jdk-20.*'
+        file_type: directory
+      register: jdk_20
     - name: Register JDK 20 with jenv
       shell:
         cmd: "jenv add {{ jdk_20.files[0].path }}"
