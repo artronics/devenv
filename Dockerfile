@@ -15,4 +15,4 @@ RUN echo "$username:$password" | chpasswd
 USER $username
 WORKDIR /home/$username
 SHELL ["/bin/zsh"]
-ENTRYPOINT ["/bin/zsh"]
+ENTRYPOINT ["/bin/zsh", "-d", "-f"]
