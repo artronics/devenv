@@ -2,7 +2,7 @@
 
 -include .env
 
-container_name = devenv
+container_name ?= devenv
 repo = $(docker_username)/$(container_name)
 build_version ?= local
 
