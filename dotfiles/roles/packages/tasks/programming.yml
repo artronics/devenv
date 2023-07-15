@@ -1,5 +1,35 @@
-- name: Rustup
+- name: Install Python
+  import_tasks:
+    file: python.yml
+
+- name: Install Nodejs
+  import_tasks:
+    file: node.yml
+
+- name: Install Java
+  import_tasks:
+    file: java.yml
+
+- name: Install Rustup
   shell:
     cmd: "curl https://sh.rustup.rs -sSf | sh -s -- -y"
     creates: "{{ ansible_env.HOME }}/.cargo/bin/rustc"
+
+
+- name: Install go
+  stat:
+    path: "/usr/local/go"
+  register: go
+- block:
+    - unarchive:
+        src: "https://golang.org/dl/go{{ version }}.linux-{{ arch[ansible_architecture] }}.tar.gz"
+        remote_src: yes
+        dest: /usr/local
+      become: yes
+  when: not go.stat.exists
+  vars:
+    version: 1.20.6
+    arch:
+      "aarch64": "arm64"
+      "x86-64": "amd"
 

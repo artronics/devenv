@@ -2,15 +2,7 @@ set nocompatible
 filetype plugin indent on
 syntax on
 
-call plug#begin()
-Plug 'doums/darcula'
-call plug#end()
-
-colorscheme darcula
-
-"""""""""""" Key Map
 let mapleader = ","
-let maplocalleader="\<space>"
 
 nmap H ^
 nmap L $
@@ -24,28 +16,6 @@ nmap k gk
 
 set signcolumn=yes
 imap jj <Esc>
-nmap <CR> o<Esc>
-"imap <C-o> <esc>o " mapped in idea to next/prev edit; as idea keymap it
-"doesn't distinguish between insert and normal mode
-
-nnoremap U <C-r>
-" nnoremap <space> viw
-" vnoremap <space> e
-nnoremap <bs> diw
-nnoremap ;; A;<esc>
-inoremap ;; <esc>A;
-
-nnoremap <leader>rr :%s///g
-nnoremap <leader>rc :%s///gc
-
-" Buffer
-nnoremap <leader><Tab> :bnext<CR>
-nnoremap <leader><leader><Tab> :bprevious<CR>
-
-" Clipboard
-"set clipboard=unnamedplus
-noremap <Leader>y "*y
-noremap <Leader>p "*p
 
 """"""""""""    General
 set updatetime=100
@@ -112,33 +82,3 @@ inoremap <up> <up>
 inoremap <down> <down>
 inoremap <left> <left>
 inoremap <right> <right>
-
-if has("nvim")
-        nmap == ==j
-
-        nnoremap <leader><bar> :vsplit<CR>
-        nnoremap <leader>_ :split<CR>
-
-        nnoremap zz :update<CR>
-
-        nnoremap <leader><leader>t :cclose<CR>
-        set pastetoggle=<F2>
-        vnoremap <tab> %
-
-        nnoremap <C-j> <C-w>j
-        nnoremap <C-k> <C-w>k
-        nnoremap <C-h> <C-w>h
-        nnoremap <C-l> <C-w>l
-        augroup toggleRelativeLineNumbers
-                autocmd!
-
-                autocmd InsertEnter,BufLeave,WinLeave,FocusLost * nested
-                                        \ if &l:number && empty(&buftype) |
-                                        \ setlocal norelativenumber |
-                                        \ endif
-                autocmd InsertLeave,BufEnter,WinEnter,FocusGained * nested
-                                        \ if &l:number && empty(&buftype) |
-                                        \ setlocal relativenumber |
-                                        \ endif
-        augroup END
-endif

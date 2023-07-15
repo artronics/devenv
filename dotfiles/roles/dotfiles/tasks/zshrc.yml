@@ -1,0 +1,62 @@
+- copy:
+    src: "zshenv"
+    dest: "{{ ansible_env.HOME }}/.zshenv"
+- copy:
+    src: "zprofile"
+    dest: "{{ ansible_env.HOME }}/.zprofile"
+
+- template:
+    src: "zshrc"
+    dest: "{{ ansible_env.HOME }}/.zshrc"
+  vars:
+    theme: awesomepanda
+    # plugins are space separated list
+    plugins: "git aws"
+    zshrc_snippet: "{{ lookup('file', 'zshrc_snippet') }}"
+
+- stat:
+    path: "{{ ansible_env.HOME }}/.cargo"
+  register: cargo
+- lineinfile:
+    path: "{{ ansible_env.HOME }}/.zshrc"
+    line: |
+      source "$HOME/.cargo/env"
+
+    state: present
+  when: cargo.stat.exists
+
+- stat:
+    path: "{{ ansible_env.HOME }}/.jenv"
+  register: jenv
+- lineinfile:
+    path: "{{ ansible_env.HOME }}/.zshrc"
+    line: |
+      export PATH="$HOME/.jenv/bin:$PATH"
+      eval "$(jenv init -)"
+
+    state: present
+  when: jenv.stat.exists
+
+- stat:
+    path: "{{ ansible_env.HOME }}/.pyenv"
+  register: pyenv
+- lineinfile:
+    path: "{{ ansible_env.HOME }}/.zshrc"
+    line: |
+      export PATH="$HOME/.pyenv/bin:$PATH" 
+      eval "$(pyenv init -)"
+      eval "$(pyenv virtualenv-init -)"
+
+    state: present
+  when: pyenv.stat.exists
+
+- stat:
+    path: "/usr/local/go"
+  register: go
+- lineinfile:
+    path: "{{ ansible_env.HOME }}/.zshrc"
+    line: |
+      export PATH="$PATH:/usr/local/go/bin" 
+
+    state: present
+  when: go.stat.exists

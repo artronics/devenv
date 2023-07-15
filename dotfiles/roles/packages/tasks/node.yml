@@ -1,0 +1,20 @@
+- stat:
+    path: "/usr/local/bin/n"
+  register: n
+- name: Install N (node version management)
+  block:
+    - git:
+        repo: https://github.com/tj/n.git
+        version: master
+        depth: 1
+        dest: /tmp/n
+        update: no
+    - command: "make install"
+      become: yes
+      args:
+        chdir: /tmp/n
+  when: not n.stat.exists
+
+- name: Install node 18
+  become: yes
+  command: "n i 18"

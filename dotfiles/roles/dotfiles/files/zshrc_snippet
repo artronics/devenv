@@ -8,4 +8,3 @@ source "$HOME/.localrc"
 
 export PATH="$PATH:$HOME/.local/bin"
 
-source "$HOME/.cargo/env"

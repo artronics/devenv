@@ -1,3 +1,39 @@
+- stat:
+    path: /usr/local/bin/tmux
+  register: tmux
+- name: Build and install tmux 3.3a from source
+  block:
+    - name: Install prerequisites for tmux build
+      become: yes
+      apt:
+        name: [ libevent-dev, ncurses-dev, build-essential, bison, pkg-config ]
+        state: present
+    - git:
+        repo: https://github.com/tmux/tmux.git
+        version: 3.3a
+        depth: 1
+        update: no
+        dest: /tmp/tmux
+    - shell:
+        cmd: "sh autogen.sh && ./configure && make"
+      args:
+        chdir: "/tmp/tmux"
+
+    - name: Install tmux
+      become: yes
+      shell:
+        cmd: "make install"
+      args:
+        chdir: "/tmp/tmux"
+  when: not tmux.stat.exists
+
+- name: Install tmux plugin manager
+  git:
+    repo: https://github.com/tmux-plugins/tpm.git
+    version: master
+    dest: "{{ ansible_env.HOME }}/.tmux/plugins/tpm"
+
+
 - name: Install ohmyzsh
   shell:
     cmd: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended

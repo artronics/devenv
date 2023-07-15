@@ -19,6 +19,6 @@
             recurse: true
             state: directory
 
-#  roles:
-#    - role: dotfiles
-#    - role: packages
+  roles:
+    - role: packages
+    - role: dotfiles

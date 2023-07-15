@@ -1,12 +1,13 @@
 - name: Install cmd tools/utilities
   become: yes
   apt:
-    name: [unzip, curl, wget, jq, fzf, ripgrep]
+    name: [unzip, curl, wget, jq, fzf, ripgrep, openssl]
+    state: latest
 
 - name: Install build tools
   become: yes
   apt:
-    name: [gcc, llvm, make, cmake, ninja-build, build-essential, gettext]
+    name: [gcc, llvm, make, cmake, ninja-build, automake, autoconf, pkg-config, autotools-dev, build-essential, gettext, libssl-dev, checkinstall]
     state: present
 
 - name: Install neovim stable

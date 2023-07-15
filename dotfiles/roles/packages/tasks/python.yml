@@ -1,0 +1,35 @@
+- name: Install pyenv
+  shell:
+    cmd: "curl https://pyenv.run | bash"
+    creates: "{{ ansible_env.HOME }}/.pyenv"
+
+- name: Install python build prerequisites
+  become: yes
+  apt:
+    name: [libreadline-dev, libncursesw5-dev, libssl-dev, libsqlite3-dev, tk-dev, libgdbm-dev, libc6-dev, libbz2-dev, liblzma-dev]
+    state: present
+
+
+- find:
+    paths: "{{ ansible_env.HOME }}/.pyenv/versions"
+    patterns: '3.11.*'
+    file_type: directory
+  register: python311
+- name: Install python 3.11
+  shell:
+    cmd: "pyenv install 3.11"
+  when: python311.matched == 0
+
+- find:
+    paths: "{{ ansible_env.HOME }}/.pyenv/versions"
+    patterns: '3.10.*'
+    file_type: directory
+  register: python310
+- name: Install python 3.10
+  shell:
+    cmd: "pyenv install 3.10"
+  when: python310.matched == 0
+
+- name: Configure global python version
+  shell:
+    cmd: "pyenv global 3.11"

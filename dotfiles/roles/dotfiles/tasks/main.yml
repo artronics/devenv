@@ -1,19 +1,7 @@
 - block:
-    - copy:
-        src: "zshenv"
-        dest: "{{ ansible_env.HOME }}/.zshenv"
-    - copy:
-        src: "zprofile"
-        dest: "{{ ansible_env.HOME }}/.zprofile"
-    - template:
-        src: "zshrc"
-        dest: "{{ ansible_env.HOME }}/.zshrc"
-      vars:
-        theme: awesomepanda
-        # plugins are space separated list
-        plugins: "git aws"
-        zshrc_snippet: "{{ lookup('file', 'zshrc_snippet') }}"
-
+    - name: Configure zshrc
+      import_tasks:
+        file: zshrc.yml
     - copy:
         src: "localrc"
         dest: "{{ ansible_env.HOME }}/.localrc"
@@ -21,23 +9,12 @@
     - copy:
         src: "aliases"
         dest: "{{ ansible_env.HOME }}/.config/aliases"
-  #  - copy:
-  #      src: "{{ dir }}/vimrc"
-  #      dest: "{{ ansible_env.HOME }}/.vimrc"
-  #  - copy:
-  #      src: "{{ dir }}/init.lua"
-  #      dest: "{{ ansible_env.HOME }}/.config/nvim/init.lua"
-  #  - copy:
-  #      src: "{{ dir }}/ideavimrc"
-  #      dest: "{{ ansible_env.HOME }}/.ideavimrc"
-  #  - copy:
-  #      src: "{{ dir }}/tmux.conf"
-  #      dest: "{{ ansible_env.HOME }}/.tmux.conf"
-  #  - copy:
-  #      src: "{{ dir }}/terraformrc"
-  #      dest: "{{ ansible_env.HOME }}/.terraformrc"
-  #
-  #  - file: path={{ ansible_env.HOME }}/.config/alacritty state=directory
-  #  - copy:
-  #      src: "{{ dir }}/alacritty.yml"
-  #      dest: "{{ ansible_env.HOME }}/.config/alacritty/alacritty.yml"
+    - copy:
+        src: "vimrc"
+        dest: "{{ ansible_env.HOME }}/.vimrc"
+    - copy:
+          src: "neovim_init.lua"
+          dest: "{{ ansible_env.HOME }}/.config/nvim/init.lua"
+    - copy:
+        src: "tmux.conf"
+        dest: "{{ ansible_env.HOME }}/.tmux.conf"
