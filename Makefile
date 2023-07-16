@@ -14,6 +14,12 @@ run:
 		-v $(shell pwd)/home:/home/$(username) -v $(shell pwd)/dotfiles:/home/$(username)/dotfiles \
 		$(container_name):$(tag)
 
+start:
+	docker start $(container_name)
+
+attach:
+	docker attach $(container_name)
+
 version ?= $(shell date +"%Y-%m-%dT%H%M%S")
 commit:
 	docker commit $(container_name) $(repo):$(version)
