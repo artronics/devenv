@@ -7,7 +7,7 @@
 - name: Install build tools
   become: yes
   apt:
-    name: [gcc, llvm, make, cmake, ninja-build, automake, autoconf, pkg-config, autotools-dev, build-essential, gettext, libssl-dev, checkinstall]
+    name: [gcc, make, cmake, ninja-build, automake, autoconf, pkg-config, autotools-dev, build-essential, gettext, libssl-dev, checkinstall]
     state: present
 
 - name: Install neovim stable
@@ -23,7 +23,7 @@
             dest: /tmp/neovim
             depth: 1
         - debug:
-            msg: "⏰ compiling neovim. It'll take a while ☕️"
+            msg: "⏰ building neovim. It'll take a while ☕️"
         - command: "make CMAKE_BUILD_TYPE=Release"
           args:
             chdir: /tmp/neovim
