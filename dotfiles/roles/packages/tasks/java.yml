@@ -12,7 +12,12 @@
 - name: Install JDKs
   vars:
     jenv_bin: "{{ ansible_env.HOME }}/.jenv/bin/jenv"
+    arch:
+      "aarch64": "aarch64"
+      "x86_64": "x64"
   block:
+    - debug:
+        msg: "arch is {{ ansible_architecture }}"
     - find:
         paths: /opt
         patterns: 'jdk-17.*'
@@ -21,7 +26,7 @@
     - name: download JDK 17 archive
       become: yes
       unarchive:
-        src: "https://download.oracle.com/java/17/latest/jdk-17_linux-{{ ansible_architecture }}_bin.tar.gz"
+        src: "https://download.oracle.com/java/17/latest/jdk-17_linux-{{ arch[ansible_architecture] }}_bin.tar.gz"
         remote_src: yes
         dest: /opt
       when: jdk_17.matched == 0
@@ -43,7 +48,7 @@
     - name: download JDK 20 archive
       become: yes
       unarchive:
-        src: https://download.oracle.com/java/20/latest/jdk-20_linux-{{ ansible_architecture }}_bin.tar.gz
+        src: "https://download.oracle.com/java/20/latest/jdk-20_linux-{{ arch[ansible_architecture] }}_bin.tar.gz"
         remote_src: yes
         dest: /opt
       when: jdk_20.matched == 0

@@ -31,5 +31,5 @@
     version: 1.20.6
     arch:
       "aarch64": "arm64"
-      "x86-64": "amd"
+      "x86_64": "amd64"
 
