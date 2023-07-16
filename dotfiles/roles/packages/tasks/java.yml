@@ -6,7 +6,7 @@
 
 - name: eval jenv
   shell:
-    cmd: 'PATH="$HOME/.jenv/bin:$PATH" eval "$(jenv init -)"'
+    cmd: 'PATH="$HOME/.jenv/bin:$PATH" eval "$({{ ansible_env.HOME }}/.jenv/bin/jenv init -)"'
 
 
 - name: Install JDKs
